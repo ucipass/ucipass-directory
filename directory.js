@@ -180,16 +180,19 @@ module.exports = class{
     async dupFilesLog(files,sortby){
         return this.dupFiles(files,sortby)
         .then(duplist => { 
-            console.log("Current Duplicate List") ;     
+            console.log("Current Duplicate List") ;
+            var totalwastedsize = 0 
             duplist.forEach((list,dupindex)=>{
                 var dupstring = "DUP"+dupindex.toString()
                 var wastedsize = 0
                 list.forEach((file,dupindex)=>{
                     wastedsize += dupindex ? file.size : 0
-                    console.log(dupstring,file.size,file.mtime,file.hash,file.fpath)
+                    //console.log(dupstring,file.size,file.mtime,file.hash,file.fpath)
                 })
+                totalwastedsize += wastedsize
                 console.log(list.length,"duplicate files wasting",wastedsize,"bytes!")
             })
+            console.log(duplist.length,"TOTAL duplicate file groups wasting a TOTAL of",totalwastedsize,"bytes!")
             return duplist;         
         })
     }
