@@ -89,7 +89,8 @@ module.exports = class{
 	}
     async dupFiles(files,sortby){
         var _this = this;
-        var files = files
+        var files = files ? files : await this.filelist()
+        var sortby = sortby ? sortby : ["size","hash"]
         if( sortby && ( sortby instanceof Array) ){
             var duplist = []
             log.silly("Multiple sort criteria selected!")

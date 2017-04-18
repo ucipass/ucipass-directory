@@ -130,4 +130,14 @@ describe("Main Test" , ()=>{
             return duplist 
         } )
     }) 
+    it("Full Abbreviated Filelist Test",()=>{
+        var dir = new Directory(basedir)
+        return dir.filelist()
+        .then( filelist => assert.equal( filelist.length, 8) )
+    }) 
+    it("Full Abbreviated Duplicate Finder Test",()=>{
+        var dir = new Directory(basedir)
+        return dir.dupFiles/*Log*/()
+        .then( duplist => assert.equal( duplist.length, 2) )
+    }) 
 })
