@@ -187,10 +187,10 @@ module.exports = class{
                 var wastedsize = 0
                 list.forEach((file,dupindex)=>{
                     wastedsize += dupindex ? file.size : 0
-                    //console.log(dupstring,file.size,file.mtime,file.hash,file.fpath)
+                    console.log(dupstring,file.size,file.mtime,file.hash,file.fpath)
                 })
                 totalwastedsize += wastedsize
-                console.log(list.length,"duplicate files wasting",wastedsize,"bytes!")
+                //console.log(list.length,"duplicate files wasting",wastedsize,"bytes!")
             })
             console.log(duplist.length,"TOTAL duplicate file groups wasting a TOTAL of",totalwastedsize,"bytes!")
             return duplist;         
