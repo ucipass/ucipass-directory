@@ -137,7 +137,7 @@ describe("Main Test" , ()=>{
     }) 
     it("Full Abbreviated Duplicate Finder Test",()=>{
         var dir = new Directory(basedir)
-        return dir.dupFiles/*Log*/()
+        return dir.dupFilesLog()
         .then( duplist => assert.equal( duplist.length, 2) )
     }) 
 })

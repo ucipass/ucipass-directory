@@ -183,9 +183,12 @@ module.exports = class{
             console.log("Current Duplicate List") ;     
             duplist.forEach((list,dupindex)=>{
                 var dupstring = "DUP"+dupindex.toString()
+                var wastedsize = 0
                 list.forEach((file,dupindex)=>{
+                    wastedsize += dupindex ? file.size : 0
                     console.log(dupstring,file.size,file.mtime,file.hash,file.fpath)
                 })
+                console.log(list.length,"duplicate files wasting",wastedsize,"bytes!")
             })
             return duplist;         
         })
