@@ -92,7 +92,7 @@ module.exports = class{
         var files = files
         if( sortby && ( sortby instanceof Array) ){
             var duplist = []
-            log.debug("Multiple sort criteria selected!")
+            log.silly("Multiple sort criteria selected!")
             for( let current_sort of sortby){              
                 if (duplist.length == 0){
                     duplist = await this.dupFiles(files,current_sort)
@@ -175,5 +175,18 @@ module.exports = class{
             }
         })
         return duplist;
+    }
+    async dupFilesLog(files,sortby){
+        return this.dupFiles(files,sortby)
+        .then(duplist => { 
+            console.log("Current Duplicate List") ;     
+            duplist.forEach((list,dupindex)=>{
+                var dupstring = "DUP"+dupindex.toString()
+                list.forEach((file,dupindex)=>{
+                    console.log(dupstring,file.size,file.mtime,file.hash,file.fpath)
+                })
+            })
+            return duplist;         
+        })
     }
 }

@@ -28,36 +28,51 @@ describe("Main Test" , ()=>{
         mkdirp.sync(path.dirname(testfile7))
         mkdirp.sync(path.dirname(testfile8))
         var file1 = new File(testfile1)
-        file1.buffer = Buffer.from("1", 'utf8')
+        file1.buffer = Buffer.from("11", 'utf8')
         await file1.write()
-        await file1.write(testfile2)
-
+        await file1.time(new Date(2001,1,1))
+        var file2 = new File(testfile2)
+        file2.buffer = Buffer.from("11", 'utf8')
+        await file2.write()
+        await file2.time(new Date(2001,1,1))
         var file3 = new File(testfile3)
         file3.buffer = Buffer.from("33", 'utf8')
         await file3.write()
-        await file3.write(testfile4)
-
+        await file3.time(new Date(2003,1,1))
+         var file4 = new File(testfile4)
+        file4.buffer = Buffer.from("44", 'utf8')
+        await file4.write()
+        await file4.time(new Date(2003,1,1))
         var file5 = new File(testfile5)
-        file5.buffer = Buffer.from("55", 'utf8')
+        file5.buffer = Buffer.from("5555", 'utf8')
         await file5.write()
-        await file5.write(testfile6)
-
+        await file5.time(new Date(2005,1,1))
+        var file6 = new File(testfile6)
+        file6.buffer = Buffer.from("6666", 'utf8')
+        await file6.write()
+        await file6.time(new Date(2005,1,1))
         var file7 = new File(testfile7)
-        file7.buffer = Buffer.from("77", 'utf8')
+        file7.buffer = Buffer.from("7777", 'utf8')
         await file7.write()
-        await file7.write(testfile8)
-        await file7.time(new Date())
+        await file7.time(new Date(2007,1,1))
+        var file8 = new File(testfile8)
+        file8.buffer = Buffer.from("7777", 'utf8')
+        await file8.write()
+        await file8.time(new Date(2007,1,1))
+        
+
+        //await file7.time(new Date(2001,1,1))
         return true
     })
-    after("Setup Test Directory", (done)=>{
+    after("Cleanup Test Directory", (done)=>{
         rmdir(basedir,function (err, dirs, files) {
             if(err){
-                console.log("ERROR REMOVING DIRECTORY",err)
+                //console.log("ERROR REMOVING DIRECTORY",err)
                 done();
             }else{
                 //console.log(dirs);
                 //console.log(files);
-                console.log('all files are removed');
+                console.log('CLeanup: files are removed');
                 done();
             }
         })
@@ -89,7 +104,7 @@ describe("Main Test" , ()=>{
         var dir = new Directory(basedir)
         return dir.filelist()
         //.then( dirlist => { console.log("Current DIrectory List",dirlist) ;    return dirlist; } )
-        .then( dirlist => { assert.equal( dirlist.length, 4) ;  return dirlist } )
+        .then( dirlist => { assert.equal( dirlist.length, 8) ;  return dirlist } )
     }) 
     it("Read Full Recursive and Find Duplicates by size",()=>{
         var dir = new Directory(basedir)
@@ -102,14 +117,17 @@ describe("Main Test" , ()=>{
         var dir = new Directory(basedir)
         return dir.filelist()
         .then( files => dir.dupFiles(files,"hash") )
-        .then( duplist => {  console.log("Current Duplicate List",duplist) ;     return duplist;         } )
         .then( duplist => { assert.equal( duplist.length, 2) ;  return duplist } )
     }) 
-    it.only("Read Full Recursive and Find Duplicates by size & mtime",()=>{
+    it("Read Full Recursive and Find Duplicates by size, mtime & hash",()=>{
         var dir = new Directory(basedir)
         return dir.filelist()
-        .then( files => dir.dupFiles(files,["size","mtime","hash"]) )
-        .then( duplist => {  console.log("Current Duplicate List",duplist) ;     return duplist;         } )
-        .then( duplist => { assert.equal( duplist.length, 2) ;  return duplist } )
+        //.then( files => { files.forEach((file,dupindex)=>{ console.log(file.size,file.mtime,file.hash,file.fpath) }); return files })
+        .then( files => dir.dupFiles/*Log*/(files,["size","mtime","hash"]) )
+        .then( duplist => { 
+            //assert.ok( duplist.length) ;  
+            assert.equal( duplist.length, 2) ;  
+            return duplist 
+        } )
     }) 
 })
