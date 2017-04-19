@@ -106,6 +106,12 @@ describe("Main Test" , ()=>{
         //.then( dirlist => { console.log("Current DIrectory List",dirlist) ;    return dirlist; } )
         .then( dirlist => { assert.equal( dirlist.length, 8) ;  return dirlist } )
     }) 
+    it("Read Full Recursive Self Test as parameter",()=>{
+        var dir = new Directory(basedir)
+        return dir.filelist(testdir1)
+        //.then( dirlist => { console.log("Current DIrectory List",dirlist) ;    return dirlist; } )
+        .then( dirlist => { assert.equal( dirlist.length, 4) ;  return dirlist } )
+    }) 
     it("Read Full Recursive and Find Duplicates by size",()=>{
         var dir = new Directory(basedir)
         return dir.filelist()

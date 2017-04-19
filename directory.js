@@ -63,8 +63,11 @@ module.exports = class{
     } 
 	async filelist(fpath){  
 		var dirlist =  fpath ? [fpath] : [this.fpath]
-		var filearr = []
-
+        var filearr = []
+        if(!fpath){
+            this.dirlist = []
+            filearr = this.dirlist
+        }
 		while (dirlist.length > 0) {
 			var curdir = dirlist.pop()
 			var curlist = await this.read(curdir).catch( (err)=> [] ) // Even if there is an error continue reading directory
