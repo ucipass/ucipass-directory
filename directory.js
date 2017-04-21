@@ -7,7 +7,7 @@ var fs = require("fs")
 var path = require("path")
 var File = require("ucipass-file")
 
-module.exports = class{
+var Directory = class{
     constructor(fpath){
         this.fpath = path.resolve(fpath)
         this.dirlist = null
@@ -199,4 +199,29 @@ module.exports = class{
             return duplist;         
         })
     }
+}
+module.exports = Directory
+if (require.main === module) {
+    var argv = require('yargs')
+    .usage('Usage: $0 [options]')
+    .example('$0 -d <path> -s size -s mtime', '"find duplicate files in directory based on size first then mtime"')
+    .option('dup', {
+        alias: 'd',
+        describe: 'provide path to search for duplicates',
+        demandOption: true
+    })
+    .option('sortby', {
+        alias: 's',
+        describe: 'provide (optinal multiple) sorting options',
+        choices: ['size', 'mtime', 'ctime', 'hash'],
+        default: 'size'
+    })
+    .help('h')
+    .alias('h', 'help')
+    .epilog('copyright ucipass 2017')
+    .argv;
+
+    var dir = new Directory(argv.d.trim())
+    dir.dupFilesLog(null,argv.s)
+
 }
